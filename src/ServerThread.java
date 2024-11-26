@@ -10,7 +10,7 @@ public class ServerThread extends Thread {
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String message;
-    private int result;
+    private int optionChosen;
 
     // Constructor
     public ServerThread(Socket socket, ReportManager reportManager) {
@@ -30,25 +30,25 @@ public class ServerThread extends Thread {
             // Begin communication with the client
             do {
                 do {
-                    // Send menu options to the client
-                    sendMessage("MENU");
-                    message = (String) in.readObject(); // Receive client input
-                    result = Integer.parseInt(message); // Parse input to integer
+                    // Menu (for users not logged in)
+                    sendMessage("1. Register new user"
+                            + "\n2. Login to the Health and Safety Reporting System");
 
-                } while ((result != 1) && (result != 2) && (result != 3) && (result != 4)); // Repeat until valid input
+                    // Get input and parse it
+                    message = (String) in.readObject();
+                    optionChosen = Integer.parseInt(message);
+                } while ((optionChosen != 1) && (optionChosen != 2));
 
-                if (message.equalsIgnoreCase("1")) {
+                if (message.equalsIgnoreCase("1")) { // Register
 
-
-                } else if (message.equalsIgnoreCase("2")) {
-
-                } else if (message.equalsIgnoreCase("3")) {
-
-                } else if (message.equalsIgnoreCase("4")) {
+                } else if (message.equalsIgnoreCase("2")) { // Log in
 
                 }
 
-            } while (message.equalsIgnoreCase("1")); // Repeat if client enters 1
+                // Ask client if they want to repeat
+                sendMessage("Enter 1 to repeat");
+                message = (String) in.readObject();
+            } while (message.equalsIgnoreCase("1"));
 
         } catch (IOException e) { // Catch IOException for communication errors
             e.printStackTrace();
@@ -57,8 +57,8 @@ public class ServerThread extends Thread {
         } finally {
             // Closing connections in finally block to ensure resources are released
             try {
-                in.close(); // Close input stream
-                out.close(); // Close output stream
+                in.close();
+                out.close();
                 socket.close(); // Close socket connection
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -71,7 +71,7 @@ public class ServerThread extends Thread {
         try {
             out.writeObject(msg); // Send message as an object
             out.flush(); // Clear the stream after sending
-            System.out.println("server>" + msg); // Log message to server console
+            System.out.println("server> " + msg); // Log message to server console
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }

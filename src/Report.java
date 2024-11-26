@@ -16,6 +16,7 @@ public class Report {
     public String getReportType() {
         return reportType;
     }
+
     public void setReportType(String reportType) {
         this.reportType = reportType;
     }
@@ -23,6 +24,7 @@ public class Report {
     public String getReportDate() {
         return reportDate;
     }
+
     public void setReportDate(String reportDate) {
         this.reportDate = reportDate;
     }
@@ -30,6 +32,7 @@ public class Report {
     public int getReportID() {
         return reportID;
     }
+
     public void setReportID(int reportID) {
         this.reportID = reportID;
     }
@@ -37,6 +40,7 @@ public class Report {
     public int getReportCreatorID() {
         return reportCreatorID;
     }
+
     public void setReportCreatorID(int reportCreatorID) {
         this.reportCreatorID = reportCreatorID;
     }
@@ -44,6 +48,7 @@ public class Report {
     public int getAssignedEmployeeID() {
         return assignedEmployeeID;
     }
+
     public void setAssignedEmployeeID(int assignedEmployeeID) {
         this.assignedEmployeeID = assignedEmployeeID;
     }
@@ -51,6 +56,7 @@ public class Report {
     public String getStatus() {
         return status;
     }
+
     public void setStatus(String status) {
         this.status = status;
     }
