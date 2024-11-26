@@ -1,16 +1,14 @@
+import java.util.LinkedList;
+
 public class User {
     // User attributes
     private String username, password, email, department, role;
     private int employeeID;
+    private LinkedList<User> users;
 
     // Constructor
-    public User(String username, String password, String email, String department, String role, int employeeID) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.department = department;
-        this.role = role;
-        this.employeeID = employeeID;
+    public User() {
+        users = new LinkedList<>();
     }
 
     // Getters and setters

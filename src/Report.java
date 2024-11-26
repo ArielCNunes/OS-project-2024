@@ -1,15 +1,15 @@
+import java.util.LinkedList;
+
 public class Report {
     // Attributes
     private String reportType, reportDate, status;
     private int reportID, reportCreatorID, assignedEmployeeID;
+    private LinkedList<Report> reports;
 
     // Constructor
-    public Report(String reportType, String reportDate, int reportID, int reportCreatorID, int assignedEmployeeID) {
-        this.reportType = reportType;
-        this.reportDate = reportDate;
-        this.reportID = reportID;
-        this.reportCreatorID = reportCreatorID;
-        this.assignedEmployeeID = assignedEmployeeID;
+    public Report() {
+        // Linked list to hold all reports
+        reports = new LinkedList<>();
     }
 
     // Getters and setters
