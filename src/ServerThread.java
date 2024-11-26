@@ -5,28 +5,27 @@ import java.net.Socket;
 
 public class ServerThread extends Thread {
     // Fields
-    private Socket socket;
-    private Report sharedReport;
-    private Socket myConnection;
+    private final Socket socket;
+    private ReportManager sharedReportManager;
     private ObjectOutputStream out;
     private ObjectInputStream in;
     private String message;
     private int result;
 
     // Constructor
-    public ServerThread(Socket socket, Report report) {
+    public ServerThread(Socket socket, ReportManager reportManager) {
         this.socket = socket;
-        this.sharedReport = report;
+        this.sharedReportManager = reportManager;
     }
 
     // Run() method
     public void run() {
         try {
             // Initialize output stream to send data to client
-            out = new ObjectOutputStream(myConnection.getOutputStream());
+            out = new ObjectOutputStream(socket.getOutputStream());
             out.flush(); // Ensure the stream is clear before use
             // Initialize input stream to receive data from client
-            in = new ObjectInputStream(myConnection.getInputStream());
+            in = new ObjectInputStream(socket.getInputStream());
 
             // Begin communication with the client
             do {
@@ -38,15 +37,14 @@ public class ServerThread extends Thread {
 
                 } while ((result != 1) && (result != 2) && (result != 3) && (result != 4)); // Repeat until valid input
 
-                // If client chooses to add a book
                 if (message.equalsIgnoreCase("1")) {
 
 
-                } else if (message.equalsIgnoreCase("2")) { // If client chooses to search for a book
+                } else if (message.equalsIgnoreCase("2")) {
 
-                } else if (message.equalsIgnoreCase("3")) { // If client chooses to display all books
+                } else if (message.equalsIgnoreCase("3")) {
 
-                } else if (message.equalsIgnoreCase("4")) { // Save all books to a file
+                } else if (message.equalsIgnoreCase("4")) {
 
                 }
 
@@ -61,7 +59,7 @@ public class ServerThread extends Thread {
             try {
                 in.close(); // Close input stream
                 out.close(); // Close output stream
-                myConnection.close(); // Close socket connection
+                socket.close(); // Close socket connection
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }

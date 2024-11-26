@@ -7,19 +7,19 @@ public class MainServer {
         ServerSocket provider;
         Socket connection;
         ServerThread handler;
-        Report report = new Report();
+        ReportManager reportManager = new ReportManager();
 
         try {
-            // Initialize the server socket on port 2004 with a maximum queue of 10 clients
+            // Server socket on port 2004 with a maximum queue of 10 clients
             provider = new ServerSocket(2004, 10);
 
-            // Infinite loop to keep the server running and accepting connections
+            // Keep the server running and accepting connections
             while (true) {
                 // Accept a client connection
                 connection = provider.accept();
 
                 // Create a new thread for handling the client connection
-                handler = new ServerThread(connection, report);
+                handler = new ServerThread(connection, reportManager);
 
                 // Start the thread to process client requests concurrently
                 handler.start();
