@@ -8,6 +8,7 @@ public class MainServer {
         Socket connection;
         ServerThread handler;
         ReportManager reportManager = new ReportManager();
+        UserManager userManager = new UserManager();
 
         try {
             // Server socket on port 2004 with a maximum queue of 10 clients
@@ -19,7 +20,7 @@ public class MainServer {
                 connection = provider.accept();
 
                 // Create a new thread for handling the client connection
-                handler = new ServerThread(connection, reportManager);
+                handler = new ServerThread(connection, reportManager, userManager);
 
                 // Start the thread to process client requests concurrently
                 handler.start();
