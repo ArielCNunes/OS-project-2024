@@ -7,19 +7,29 @@ public class UserManager {
     public UserManager() {
         users = new ConcurrentHashMap<>();
     }
-    // This method authenticates log information
-    public boolean authenticate(String username, String password) {
-        return true;
+    // This method authenticates log in information
+    public boolean authenticate(String email, String password) {
+        // Email
+        if (!users.containsKey(email)) {
+            return false;
+        }
+
+        // Password
+        return users.get(email).getPassword().equals(password);
     }
 
     // This method returns a user
     public User getUserByEmail(String email) {
-        return null;
+        return users.get(email);
     }
 
-    // This method changes the password
+    // This method updates the password
     public boolean updatePassword(String email, String newPassword) {
-        return false;
+        if (!users.containsKey(email)) {
+            return false;
+        }
+        users.get(email).setPassword(newPassword);
+        return true;
     }
 
     // This email registers the user (if the user is not already registered)
