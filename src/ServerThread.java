@@ -34,25 +34,51 @@ public class ServerThread extends Thread {
                 int optionChosen;
                 do {
                     // Menu (for users not logged in)
-                    sendMessage("1. Register new user"
-                            + "\n2. Login to the Health and Safety Reporting System");
+                    sendMessage("1. Register new user" + "\n2. Login to the Health and Safety Reporting System");
 
                     // Get input and parse it
                     message = (String) in.readObject();
                     optionChosen = Integer.parseInt(message);
                 } while ((optionChosen != 1) && (optionChosen != 2));
 
-                if (message.equalsIgnoreCase("1")) { // Register
+                // Register & log in
+                if (message.equalsIgnoreCase("1")) {
                     // Registration logic
-                } else if (message.equalsIgnoreCase("2")) { // Log in
+                    sendMessage("Create a username> ");
+                    String username = (String) in.readObject();
+
+                    sendMessage("Create an email> ");
+                    String email = (String) in.readObject();
+
+                    sendMessage("Create a password> ");
+                    String password = (String) in.readObject();
+
+                    sendMessage("Set a department> ");
+                    String department = (String) in.readObject();
+
+                    sendMessage("Set a role> ");
+                    String role = (String) in.readObject();
+
+                    sendMessage("Enter your employee ID> ");
+                    String idInput = (String) in.readObject();
+
+                    try {
+                        int id = Integer.parseInt(idInput); // Parse to int
+                        if (sharedUserManager.registerNewUser(username, email, password, department, role, id)) {
+                            sendMessage("Registration successful! You can now log in.");
+                        } else {
+                            sendMessage("Registration unsuccessful. Please try again.");
+                        }
+                    } catch (NumberFormatException e) {
+                        sendMessage("Invalid ID. Please enter a valid number.");
+                    }
+                } else if (message.equalsIgnoreCase("2")) {
                     // Validate user
                     sendMessage("Email> ");
                     String email = (String) in.readObject();
-                    System.out.println("Server received: " + email);
 
                     sendMessage("Password> ");
                     String password = (String) in.readObject();
-                    System.out.println("Server received: " + password);
 
                     // Check credentials
                     if (sharedUserManager.authenticate(email, password)) {

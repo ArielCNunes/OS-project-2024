@@ -39,10 +39,47 @@ public class Requester {
                 } while (!message.equalsIgnoreCase("1")
                         && !message.equalsIgnoreCase("2"));
 
-                if (message.equalsIgnoreCase("1")) { // Register
+                // Registration and log in
+                if (message.equalsIgnoreCase("1")) {
+                    // Receive and send user details
+                    System.out.println((String) in.readObject()); // username
+                    String username = input.nextLine();
+                    sendMessage(username);
 
-                } else if (message.equalsIgnoreCase("2")) { // Register
+                    System.out.println((String) in.readObject()); // email
+                    String email = input.nextLine();
+                    sendMessage(email);
 
+                    System.out.println((String) in.readObject()); // password
+                    String password = input.nextLine();
+                    sendMessage(password);
+
+                    System.out.println((String) in.readObject()); // department
+                    String department = input.nextLine();
+                    sendMessage(department);
+
+                    System.out.println((String) in.readObject()); // role
+                    String role = input.nextLine();
+                    sendMessage(role);
+
+                    System.out.println((String) in.readObject()); // id
+                    String id = input.nextLine();
+                    sendMessage(id);
+
+                    // Registration success or failure message
+                    System.out.println((String) in.readObject());
+                } else if (message.equalsIgnoreCase("2")) {
+                    // Receive and send user login details
+                    System.out.println((String) in.readObject()); // Email
+                    String email = input.nextLine();
+                    sendMessage(email);
+
+                    System.out.println((String) in.readObject()); // Password
+                    String password = input.nextLine();
+                    sendMessage(password);
+
+                    // Login success or failure message
+                    System.out.println((String) in.readObject());
                 }
 
                 // Receive prompt to repeat the process
