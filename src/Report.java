@@ -4,13 +4,14 @@ public class Report {
     private int reportCreatorID, assignedEmployeeID;
 
     // Constructor
-    public Report(String reportType, String reportDate, String description, String reportID, int reportCreatorID, int assignedEmployeeID) {
+    public Report(String reportType, String reportDate, String description, String reportID, int reportCreatorID, int assignedEmployeeID, String status) {
         this.reportType = reportType;
         this.reportDate = reportDate;
         this.reportID = reportID;
         this.reportCreatorID = reportCreatorID;
         this.assignedEmployeeID = assignedEmployeeID;
         this.description = description;
+        this.status = status;
     }
 
     // Getters and setters

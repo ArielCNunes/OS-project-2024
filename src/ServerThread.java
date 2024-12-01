@@ -163,7 +163,10 @@ public class ServerThread extends Thread {
         sendMessage("Enter a description:");
         String description = (String) in.readObject();
 
-        Report newReport = reportManager.createReport(currentUser, reportType, description);
+        sendMessage("Enter the status:");
+        String status = (String) in.readObject();
+
+        Report newReport = reportManager.createReport(currentUser, reportType, description, status);
         sendMessage("Report created successfully! Report ID: " + newReport.getReportID());
     }
 

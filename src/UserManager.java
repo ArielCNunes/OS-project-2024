@@ -1,4 +1,5 @@
 import java.util.concurrent.ConcurrentHashMap;
+import java.io.*;
 
 public class UserManager {
     // Store all users
@@ -6,7 +7,33 @@ public class UserManager {
 
     public UserManager() {
         users = new ConcurrentHashMap<>();
+        loadUsersFromFile("employees.txt");
     }
+
+    public void loadUsersFromFile(String filePath) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            System.out.println("Loading employees.txt");
+            while ((line = reader.readLine()) != null) {
+                // Split the line by commas
+                String[] parts = line.split(",");
+                if (parts.length == 6) {
+                    int employeeID = Integer.parseInt(parts[0]);
+                    String name = parts[1];
+                    String email = parts[2];
+                    String password = parts[3];
+                    String department = parts[4];
+                    String role = parts[5];
+
+                    // Create a new User and add it to the map
+                    users.put(email, new User(name, password, email, department, role, employeeID));
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     // This method authenticates log in information
     public boolean authenticate(String email, String password) {
         // Email
