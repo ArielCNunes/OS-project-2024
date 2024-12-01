@@ -1,4 +1,3 @@
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class ReportManager {
@@ -38,11 +37,39 @@ public class ReportManager {
 
     // This method updates the status of a report
     public boolean updateReportStatus(String reportID, String newStatus) {
-        return false;
+        // Get report
+        Report report = reports.get(reportID);
+
+        // Update it only o fit exists
+        if (report != null) {
+            report.setStatus(newStatus);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean assignReportToEmployee(String reportID, String employeeID) {
+        Report report = reports.get(reportID);
+
+        if (report == null) {
+            return false;
+        }
+
+        // Parse id back into an int and assign report to employee
+        int id = Integer.parseInt(employeeID);
+        report.setAssignedEmployeeID(id);
+        return true;
     }
 
     // This method returns the report assigned to one user
-    public String getReportsAssignedToUser(String email) {
-        return null;
+    public String getReportsAssignedToUser(int employeeID) {
+        StringBuilder assignedReports = new StringBuilder();
+        for (Report report : reports.values()) {
+            if (report.getAssignedEmployeeID() == employeeID) {
+                assignedReports.append(report).append("\n");
+            }
+        }
+        return assignedReports.toString();
     }
 }

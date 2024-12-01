@@ -114,9 +114,9 @@ public class ServerThread extends Thread {
         String message;
         do {
             sendMessage("3. Create Report" +
-                    "\n4. View All Reports" +
-                    "\n5. Update Report" +
-                    "\n6. View Assigned Reports" +
+                    "\n4. Retrieve All Reports" +
+                    "\n5. Update & assign a report to an employee" +
+                    "\n6. View all reports assigned to you" +
                     "\n7. Change Password");
             message = (String) in.readObject();
 
@@ -138,7 +138,7 @@ public class ServerThread extends Thread {
                     viewAllReports();
                     break;
                 case 5:
-                    updateReport();
+                    updateAndAssignReport();
                     break;
                 case 6:
                     viewAssignedReports(currentUser);
@@ -173,8 +173,9 @@ public class ServerThread extends Thread {
         sendMessage(reports);
     }
 
-    // Update report
-    private void updateReport() throws IOException, ClassNotFoundException {
+    // Update & report
+    private void updateAndAssignReport() throws IOException, ClassNotFoundException {
+        // Update
         sendMessage("Enter the report ID to update:");
         String reportID = (String) in.readObject();
 
@@ -187,12 +188,30 @@ public class ServerThread extends Thread {
         } else {
             sendMessage("Failed to update report. Report ID not found.");
         }
+
+        // Assign
+        sendMessage("Enter employee ID to assign a report: ");
+        String employeeIDToAssignReport = (String) in.readObject();
+        boolean assigned = reportManager.assignReportToEmployee(reportID, employeeIDToAssignReport);
+
+        if (assigned) {
+            sendMessage("Report assigned successfully!");
+        } else {
+            sendMessage("Failed to assign report. Report ID not found.");
+        }
     }
 
     // View assigned report
-    private void viewAssignedReports(User currentUser) throws IOException {
-        String assignedReports = reportManager.getReportsAssignedToUser(currentUser.getEmail());
-        sendMessage(assignedReports);
+    private void viewAssignedReports(User currentUser) {
+        // Retrieve reports assigned to the current user
+        String reports = reportManager.getReportsAssignedToUser(currentUser.getEmployeeID());
+
+        // Check if there are any assigned reports
+        if (reports.isEmpty()) {
+            sendMessage("No reports are currently assigned to you.");
+        } else {
+            sendMessage("Reports assigned to you:\n" + reports);
+        }
     }
 
     // Change password
