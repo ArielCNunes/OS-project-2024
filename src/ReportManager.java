@@ -23,7 +23,17 @@ public class ReportManager {
 
     // This method returns all reports
     public String getAllReports() {
-        return null;
+        if (reports.isEmpty()) {
+            return "No reports available.";
+        }
+
+        // Put all reports in one String
+        StringBuilder allReports = new StringBuilder();
+        for (Report report : reports.values()) {
+            allReports.append(report.toString()).append("\n"); // Assumes Report has a meaningful toString() implementation
+        }
+
+        return allReports.toString();
     }
 
     // This method updates the status of a report

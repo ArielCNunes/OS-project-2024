@@ -69,4 +69,17 @@ public class Report {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    // Method to print a report
+    @Override
+    public String toString() {
+        return "Report [ID=" + reportID +
+                ", Report Type=" + reportType +
+                ", Report Date=" + reportDate +
+                ", Status =" + status +
+                ", Description =" + description +
+                ", Report Creator ID =" + reportCreatorID +
+                ", Assigned Employee ID =" + assignedEmployeeID +
+                "]";
+    }
 }
