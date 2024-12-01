@@ -6,18 +6,16 @@ import java.net.Socket;
 public class ServerThread extends Thread {
     // Fields
     private final Socket socket;
-    private final ReportManager sharedReportManager;
-    private final UserManager sharedUserManager;
-    private User currentUser;
+    private final ReportManager reportManager;
+    private final UserManager userManager;
     private ObjectOutputStream out;
     private ObjectInputStream in;
-    private String message;
 
     // Constructor
     public ServerThread(Socket socket, ReportManager reportManager, UserManager userManager) {
         this.socket = socket;
-        this.sharedReportManager = reportManager;
-        this.sharedUserManager = userManager;
+        this.reportManager = reportManager;
+        this.userManager = userManager;
     }
 
     // Run() method
@@ -30,6 +28,7 @@ public class ServerThread extends Thread {
             in = new ObjectInputStream(socket.getInputStream());
 
             // Begin communication with the client
+            String message;
             do {
                 int optionChosen;
                 do {
@@ -64,7 +63,7 @@ public class ServerThread extends Thread {
 
                     try {
                         int id = Integer.parseInt(idInput); // Parse to int
-                        if (sharedUserManager.registerNewUser(username, email, password, department, role, id)) {
+                        if (userManager.registerNewUser(username, email, password, department, role, id)) {
                             sendMessage("Registration successful! You can now log in.");
                         } else {
                             sendMessage("Registration unsuccessful. Please try again.");
@@ -81,8 +80,8 @@ public class ServerThread extends Thread {
                     String password = (String) in.readObject();
 
                     // Check credentials
-                    if (sharedUserManager.authenticate(email, password)) {
-                        currentUser = sharedUserManager.getUserByEmail(email);
+                    if (userManager.authenticate(email, password)) {
+                        User currentUser = userManager.getUserByEmail(email);
                         loggedInMenu(currentUser);
                     } else {
                         sendMessage("Invalid email or password");
@@ -114,11 +113,16 @@ public class ServerThread extends Thread {
     private void loggedInMenu(User currentUser) throws IOException, ClassNotFoundException {
         String message;
         do {
-            sendMessage("3. Create Report\n4. View All Reports\n5. Update Report"
-                    + "\n6. View Assigned Reports\n7. Change Password");
+            sendMessage("3. Create Report" +
+                    "\n4. View All Reports" +
+                    "\n5. Update Report" +
+                    "\n6. View Assigned Reports" +
+                    "\n7. Change Password");
             message = (String) in.readObject();
 
             int optionChosen;
+
+            // Validate input
             try {
                 optionChosen = Integer.parseInt(message);
             } catch (NumberFormatException e) {
@@ -159,13 +163,13 @@ public class ServerThread extends Thread {
         sendMessage("Enter a description:");
         String description = (String) in.readObject();
 
-        Report newReport = sharedReportManager.createReport(currentUser, reportType, description);
+        Report newReport = reportManager.createReport(currentUser, reportType, description);
         sendMessage("Report created successfully! Report ID: " + newReport.getReportID());
     }
 
     // View all reports
     private void viewAllReports() throws IOException {
-        String reports = sharedReportManager.getAllReports();
+        String reports = reportManager.getAllReports();
         sendMessage(reports);
     }
 
@@ -177,7 +181,7 @@ public class ServerThread extends Thread {
         sendMessage("Enter the new status (Open/Assigned/Closed):");
         String newStatus = (String) in.readObject();
 
-        boolean updated = sharedReportManager.updateReportStatus(reportID, newStatus);
+        boolean updated = reportManager.updateReportStatus(reportID, newStatus);
         if (updated) {
             sendMessage("Report updated successfully!");
         } else {
@@ -187,7 +191,7 @@ public class ServerThread extends Thread {
 
     // View assigned report
     private void viewAssignedReports(User currentUser) throws IOException {
-        String assignedReports = sharedReportManager.getReportsAssignedToUser(currentUser.getEmail());
+        String assignedReports = reportManager.getReportsAssignedToUser(currentUser.getEmail());
         sendMessage(assignedReports);
     }
 
@@ -196,7 +200,7 @@ public class ServerThread extends Thread {
         sendMessage("Enter your new password:");
         String newPassword = (String) in.readObject();
 
-        boolean success = sharedUserManager.updatePassword(currentUser.getEmail(), newPassword);
+        boolean success = userManager.updatePassword(currentUser.getEmail(), newPassword);
         if (success) {
             sendMessage("Password updated successfully!");
         } else {
