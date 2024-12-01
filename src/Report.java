@@ -1,15 +1,16 @@
 public class Report {
     // Attributes
-    private String reportType, reportDate, status;
-    private int reportID, reportCreatorID, assignedEmployeeID;
+    private String reportType, reportDate, status, reportID, description;
+    private int reportCreatorID, assignedEmployeeID;
 
     // Constructor
-    public Report(String reportType, String reportDate, int reportID, int reportCreatorID, int assignedEmployeeID) {
+    public Report(String reportType, String reportDate, String description, String reportID, int reportCreatorID, int assignedEmployeeID) {
         this.reportType = reportType;
         this.reportDate = reportDate;
         this.reportID = reportID;
         this.reportCreatorID = reportCreatorID;
         this.assignedEmployeeID = assignedEmployeeID;
+        this.description = description;
     }
 
     // Getters and setters
@@ -29,11 +30,11 @@ public class Report {
         this.reportDate = reportDate;
     }
 
-    public int getReportID() {
+    public String getReportID() {
         return reportID;
     }
 
-    public void setReportID(int reportID) {
+    public void setReportID(String reportID) {
         this.reportID = reportID;
     }
 
@@ -59,5 +60,13 @@ public class Report {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
