@@ -7,7 +7,7 @@ public class UserManager {
 
     public UserManager() {
         users = new ConcurrentHashMap<>();
-        loadUsersFromFile("employees.txt");
+        loadUsersFromFile("/Users/arielnunes/local-college/project-2024/OS-project-2024/src/employees.txt");
     }
 
     public void loadUsersFromFile(String filePath) {

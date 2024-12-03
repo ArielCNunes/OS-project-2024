@@ -80,6 +80,75 @@ public class Requester {
 
                     // Login success or failure message
                     System.out.println((String) in.readObject());
+
+                    // Additional menu options
+                    String userChoice;
+                    do {
+                        // Receive and display options 3-7 menu from server
+                        System.out.println((String) in.readObject());
+
+                        // User makes a choice
+                        userChoice = input.nextLine();
+                        sendMessage(userChoice);
+
+                        switch (userChoice) {
+                            case "3":
+                                System.out.println((String) in.readObject()); // Prompt for report type
+                                String reportType = input.nextLine();
+                                sendMessage(reportType);
+
+                                System.out.println((String) in.readObject()); // Prompt for description
+                                String description = input.nextLine();
+                                sendMessage(description);
+
+                                // Confirmation from server
+                                System.out.println((String) in.readObject());
+                                break;
+
+                            case "4":
+                                // Handle retrieving all accident reports
+                                System.out.println((String) in.readObject());
+                                break;
+
+                            case "5":
+                                // Assign report
+                                System.out.println((String) in.readObject()); // Prompt for report ID
+                                String reportID = input.nextLine();
+                                sendMessage(reportID);
+
+                                System.out.println((String) in.readObject()); // Prompt for employee ID
+                                String employeeID = input.nextLine();
+                                sendMessage(employeeID);
+
+                                // Confirmation from server
+                                System.out.println((String) in.readObject());
+                                break;
+
+                            case "6":
+                                // View assigned reports
+                                System.out.println((String) in.readObject());
+                                break;
+
+                            case "7":
+                                // Update password
+                                System.out.println((String) in.readObject()); // Prompt for new password
+                                String newPassword = input.nextLine();
+                                sendMessage(newPassword);
+
+                                // Confirmation from server
+                                System.out.println((String) in.readObject());
+                                break;
+
+                            default:
+                                System.out.println("Invalid choice. Please try again.");
+                        }
+
+                        // Ask if user wants to continue or exit
+                        System.out.println((String) in.readObject());
+                        userChoice = input.nextLine();
+                        sendMessage(userChoice);
+
+                    } while (!userChoice.equalsIgnoreCase("exit"));
                 }
 
                 // Receive prompt to repeat the process
