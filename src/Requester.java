@@ -121,7 +121,13 @@ public class Requester {
                                 String reportID = input.nextLine();
                                 sendMessage(reportID);
 
-                                System.out.println((String) in.readObject()); // Prompt for employee ID
+                                System.out.println((String) in.readObject()); // Prompt for new status
+                                String newStatus = input.nextLine();
+                                sendMessage(newStatus);
+
+                                System.out.println((String) in.readObject()); // Success or failure message
+
+                                System.out.println((String) in.readObject()); // Prompt for employee id
                                 String employeeID = input.nextLine();
                                 sendMessage(employeeID);
 
