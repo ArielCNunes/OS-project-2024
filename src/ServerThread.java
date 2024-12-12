@@ -81,6 +81,7 @@ public class ServerThread extends Thread {
 
                     // Check credentials
                     if (userManager.authenticate(email, password)) {
+                        sendMessage("Logged in successfully");
                         User currentUser = userManager.getUserByEmail(email);
                         loggedInMenu(currentUser);
                     } else {
@@ -120,30 +121,20 @@ public class ServerThread extends Thread {
                     "\n7. Change Password");
             message = (String) in.readObject();
 
-            int optionChosen;
-
-            // Validate input
-            try {
-                optionChosen = Integer.parseInt(message);
-            } catch (NumberFormatException e) {
-                sendMessage("Invalid input. Please enter a number between 3 and 7.");
-                continue;
-            }
-
-            switch (optionChosen) {
-                case 3:
+            switch (message) {
+                case "3":
                     createReport(currentUser);
                     break;
-                case 4:
+                case "4":
                     viewAllReports();
                     break;
-                case 5:
+                case "5":
                     updateAndAssignReport();
                     break;
-                case 6:
+                case "6":
                     viewAssignedReports(currentUser);
                     break;
-                case 7:
+                case "7":
                     changePassword(currentUser);
                     break;
                 default:

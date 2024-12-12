@@ -39,7 +39,7 @@ public class Requester {
                 } while (!message.equalsIgnoreCase("1")
                         && !message.equalsIgnoreCase("2"));
 
-                // Registration and log in
+                // Register
                 if (message.equalsIgnoreCase("1")) {
                     // Receive and send user details
                     System.out.println((String) in.readObject()); // username
@@ -68,6 +68,8 @@ public class Requester {
 
                     // Registration success or failure message
                     System.out.println((String) in.readObject());
+
+                    // Log in
                 } else if (message.equalsIgnoreCase("2")) {
                     // Receive and send user login details
                     System.out.println((String) in.readObject()); // Email
@@ -81,25 +83,28 @@ public class Requester {
                     // Login success or failure message
                     System.out.println((String) in.readObject());
 
-                    // Additional menu options
+                    // Display options 3 - 7 if user has been authenticated
                     String userChoice;
                     do {
                         // Receive and display options 3-7 menu from server
                         System.out.println((String) in.readObject());
 
-                        // User makes a choice
+                        // Choose from options 3 - 7
                         userChoice = input.nextLine();
                         sendMessage(userChoice);
-
                         switch (userChoice) {
                             case "3":
-                                System.out.println((String) in.readObject()); // Prompt for report type
+                                System.out.println((String) in.readObject()); // report type
                                 String reportType = input.nextLine();
                                 sendMessage(reportType);
 
-                                System.out.println((String) in.readObject()); // Prompt for description
+                                System.out.println((String) in.readObject()); // description
                                 String description = input.nextLine();
                                 sendMessage(description);
+
+                                System.out.println((String) in.readObject()); // status
+                                String status = input.nextLine();
+                                sendMessage(status);
 
                                 // Confirmation from server
                                 System.out.println((String) in.readObject());
@@ -142,13 +147,12 @@ public class Requester {
                             default:
                                 System.out.println("Invalid choice. Please try again.");
                         }
-
                         // Ask if user wants to continue or exit
                         System.out.println((String) in.readObject());
                         userChoice = input.nextLine();
                         sendMessage(userChoice);
 
-                    } while (!userChoice.equalsIgnoreCase("exit"));
+                    } while (!userChoice.equalsIgnoreCase("-1"));
                 }
 
                 // Receive prompt to repeat the process
