@@ -57,6 +57,7 @@ public class UserManager {
             return false;
         }
         users.get(email).setPassword(newPassword);
+        saveUsersToFile("src/employees.txt");
         return true;
     }
 
