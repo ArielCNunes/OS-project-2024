@@ -34,20 +34,6 @@ public class UserManager {
         }
     }
 
-    public void saveUsersToFile(String filePath) {
-        System.out.println("Saving employees to " + filePath);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
-            for (User user : users.values()) {
-                String line = user.toString();
-                writer.write(line);
-                writer.newLine();
-            }
-            System.out.println("Users saved to file successfully.");
-        } catch (IOException e) {
-            System.err.println("Error saving users to file: " + e.getMessage());
-        }
-    }
-
     // This method authenticates log in information
     public boolean authenticate(String email, String password) {
         // Email
@@ -80,8 +66,21 @@ public class UserManager {
         }
 
         // Add new user and save it file
-        saveUsersToFile("/Users/arielnunes/local-college/project-2024/OS-project-2024/src/employees.txt");
         users.put(email, new User(employeeID, username, email, password, department, role));
+        saveUsersToFile("src/employees.txt");
         return true;
+    }
+
+    public void saveUsersToFile(String filePath) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            for (User user : users.values()) {
+                String line = user.toString();
+                writer.write(line);
+                writer.newLine();
+            }
+            System.out.println("Users saved to file successfully.");
+        } catch (IOException e) {
+            System.err.println("Error saving users to file: " + e.getMessage());
+        }
     }
 }

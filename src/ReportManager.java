@@ -35,8 +35,20 @@ public class ReportManager {
         }
     }
 
+    // This method creates a new report
+    public Report createReport(User currentUser, String reportType, String description, String status) {
+        String reportID = currentUser.getEmail() + "-" + System.currentTimeMillis(); // unique id
+        String reportDate = java.time.LocalDate.now().toString(); // date it's been created
+        int reportCreatorID = currentUser.getEmployeeID(); // id of current user
+        int assignedEmployeeID = -1; // ID unassigned
+
+        // Add to map and save it to file
+        reports.put(reportID, new Report(reportType, reportDate, description, reportID, reportCreatorID, assignedEmployeeID, status));
+        saveReportsToFile("src/reports.txt");
+        return reports.get(reportID);
+    }
+
     public void saveReportsToFile(String filePath) {
-        System.out.println("Saving reports to " + filePath);
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Report report : reports.values()) {
                 String line = report.toString();
@@ -47,19 +59,6 @@ public class ReportManager {
         } catch (IOException e) {
             System.err.println("Error saving reports to file: " + e.getMessage());
         }
-    }
-
-    // This method creates a new report
-    public Report createReport(User currentUser, String reportType, String description, String status) {
-        String reportID = currentUser.getEmail() + "-" + System.currentTimeMillis(); // unique id
-        String reportDate = java.time.LocalDate.now().toString(); // date it's been created
-        int reportCreatorID = currentUser.getEmployeeID(); // id of current user
-        int assignedEmployeeID = -1; // ID unassigned
-
-        // Add to map and save it to file
-        reports.put(reportID, new Report(reportType, reportDate, description, reportID, reportCreatorID, assignedEmployeeID, status));
-        saveReportsToFile("reports.txt");
-        return reports.get(reportID);
     }
 
     // This method returns all reports

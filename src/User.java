@@ -65,6 +65,6 @@ public class User {
     // Method to print user information
     @Override
     public String toString() {
-        return employeeID + "," + username + "," + email + "," + password + "," + department + "," + role;
+        return employeeID + ", " + username + ", " + email + ", " + password + ", " + department + ", " + role;
     }
 }
