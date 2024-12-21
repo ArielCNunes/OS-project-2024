@@ -66,6 +66,12 @@ public class UserManager {
             return false; // Email already registered
         }
 
+        for (User user : users.values()) {
+            if (user.getEmployeeID() == employeeID) {
+                return false; // ID already exists
+            }
+        }
+
         // Add new user and save it file
         users.put(email, new User(employeeID, username, email, password, department, role));
         saveUsersToFile("src/employees.txt");
