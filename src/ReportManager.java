@@ -81,9 +81,10 @@ public class ReportManager {
         // Get report
         Report report = reports.get(reportID);
 
-        // Update it only o fit exists
+        // Update report if it exists
         if (report != null) {
             report.setStatus(newStatus);
+            saveReportsToFile("src/reports.txt");
             return true;
         } else {
             return false;
@@ -100,6 +101,9 @@ public class ReportManager {
         // Parse id back into an int and assign report to employee
         int id = Integer.parseInt(employeeID);
         report.setAssignedEmployeeID(id);
+
+        saveReportsToFile("src/reports.txt");
+
         return true;
     }
 
