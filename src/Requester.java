@@ -29,80 +29,90 @@ public class Requester {
             // 3: Communicating with the server
             do {
                 do {
-                    // Receiving menu options from server and displaying them to the user
+                    // Log in or register options
                     message = (String) in.readObject();
                     System.out.println(message);
 
-                    // User inputs their choice
+                    // Get input and send to server
                     message = input.nextLine();
-                    sendMessage(message); // Send user choice to the server
+                    sendMessage(message);
                 } while (!message.equalsIgnoreCase("1")
                         && !message.equalsIgnoreCase("2"));
 
-                // Register
+                // Register option
                 if (message.equalsIgnoreCase("1")) {
-                    // Receive and send user details
-                    System.out.println((String) in.readObject()); // username
+                    // username
+                    System.out.println((String) in.readObject());
                     String username = input.nextLine();
                     sendMessage(username);
 
-                    System.out.println((String) in.readObject()); // email
+                    // email
+                    System.out.println((String) in.readObject());
                     String email = input.nextLine();
                     sendMessage(email);
 
-                    System.out.println((String) in.readObject()); // password
+                    // password
+                    System.out.println((String) in.readObject());
                     String password = input.nextLine();
                     sendMessage(password);
 
-                    System.out.println((String) in.readObject()); // department
+                    // department
+                    System.out.println((String) in.readObject());
                     String department = input.nextLine();
                     sendMessage(department);
 
-                    System.out.println((String) in.readObject()); // role
+                    // role
+                    System.out.println((String) in.readObject());
                     String role = input.nextLine();
                     sendMessage(role);
 
-                    System.out.println((String) in.readObject()); // id
+                    // id
+                    System.out.println((String) in.readObject());
                     String id = input.nextLine();
                     sendMessage(id);
 
                     // Registration success or failure message
                     System.out.println((String) in.readObject());
 
-                    // Log in
+                    // Log in option
                 } else if (message.equalsIgnoreCase("2")) {
-                    // Receive and send user login details
-                    System.out.println((String) in.readObject()); // Email
+                    // Email
+                    System.out.println((String) in.readObject());
                     String email = input.nextLine();
                     sendMessage(email);
 
-                    System.out.println((String) in.readObject()); // Password
+                    // Password
+                    System.out.println((String) in.readObject());
                     String password = input.nextLine();
                     sendMessage(password);
 
                     // Login success or failure message
                     System.out.println((String) in.readObject());
 
-                    // Display options 3 - 7 if user has been authenticated
+                    // Options 3 - 7 for authenticated users
                     String userChoice;
                     do {
-                        // Receive and display options 3-7 menu from server
+                        // Receive, display options 3-7, and send answer
                         System.out.println((String) in.readObject());
-
-                        // Choose from options 3 - 7
                         userChoice = input.nextLine();
                         sendMessage(userChoice);
+
+                        // Execute one of the option
                         switch (userChoice) {
+                            // Create report
                             case "3":
-                                System.out.println((String) in.readObject()); // report type
+                                // report type
+                                System.out.println((String) in.readObject());
                                 String reportType = input.nextLine();
                                 sendMessage(reportType);
 
-                                System.out.println((String) in.readObject()); // description
+                                // description
+                                System.out.println((String) in.readObject());
                                 String description = input.nextLine();
                                 sendMessage(description);
 
-                                System.out.println((String) in.readObject()); // status
+                                // status
+                                System.out.println((String) in.readObject());
                                 String status = input.nextLine();
                                 sendMessage(status);
 
@@ -110,24 +120,28 @@ public class Requester {
                                 System.out.println((String) in.readObject());
                                 break;
 
+                            // Displays all reports (sent from server)
                             case "4":
-                                // Handle retrieving all accident reports
                                 System.out.println((String) in.readObject());
                                 break;
 
+                            // Assign report
                             case "5":
-                                // Assign report
-                                System.out.println((String) in.readObject()); // Prompt for report ID
+                                // report ID
+                                System.out.println((String) in.readObject());
                                 String reportID = input.nextLine();
                                 sendMessage(reportID);
 
-                                System.out.println((String) in.readObject()); // Prompt for new status
+                                // new status
+                                System.out.println((String) in.readObject());
                                 String newStatus = input.nextLine();
                                 sendMessage(newStatus);
 
-                                System.out.println((String) in.readObject()); // Success or failure message
+                                // Success or failure message
+                                System.out.println((String) in.readObject());
 
-                                System.out.println((String) in.readObject()); // Prompt for employee id
+                                // Prompt for employee id
+                                System.out.println((String) in.readObject());
                                 String employeeID = input.nextLine();
                                 sendMessage(employeeID);
 
@@ -135,14 +149,14 @@ public class Requester {
                                 System.out.println((String) in.readObject());
                                 break;
 
+                            // View assigned reports
                             case "6":
-                                // View assigned reports
                                 System.out.println((String) in.readObject());
                                 break;
 
+                            // Update password
                             case "7":
-                                // Update password
-                                System.out.println((String) in.readObject()); // Prompt for new password
+                                System.out.println((String) in.readObject());
                                 String newPassword = input.nextLine();
                                 sendMessage(newPassword);
 
@@ -153,7 +167,7 @@ public class Requester {
                             default:
                                 System.out.println("Invalid choice. Please try again.");
                         }
-                        // Ask if user wants to continue or exit
+                        // Continue or exit
                         System.out.println((String) in.readObject());
                         userChoice = input.nextLine();
                         sendMessage(userChoice);
@@ -161,25 +175,28 @@ public class Requester {
                     } while (!userChoice.equalsIgnoreCase("-1"));
                 }
 
-                // Receive prompt to repeat the process
+                // Repeat while answer is 1
                 message = (String) in.readObject();
                 System.out.println(message);
                 message = input.nextLine();
                 sendMessage(message);
             } while (message.equalsIgnoreCase("1"));
 
-        } catch (UnknownHostException unknownHost) { // Handle unknown host error
+            // Handle unknown host error
+        } catch (UnknownHostException unknownHost) {
             System.err.println("You are trying to connect to an unknown host!");
-        } catch (IOException ioException) { // Handle input/output exceptions
+            // Handle input/output exceptions
+        } catch (IOException ioException) {
             ioException.printStackTrace();
-        } catch (ClassNotFoundException e) { // Handle error if class of received object is unknown
+            // Handle error if class of received object is unknown
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             // 4: Closing connection
             try {
-                in.close(); // Close input stream
-                out.close(); // Close output stream
-                requestSocket.close(); // Close socket connection
+                in.close();
+                out.close();
+                requestSocket.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
@@ -197,9 +214,9 @@ public class Requester {
         }
     }
 
-    // Main method to start client application
+    // Main method
     public static void main(String args[]) {
-        Requester client = new Requester(); // Create client instance
-        client.run(); // Run the client application
+        Requester client = new Requester();
+        client.run();
     }
 }

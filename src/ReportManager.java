@@ -11,6 +11,7 @@ public class ReportManager {
         loadReportsFromFile("src/reports.txt");
     }
 
+    // This method loads the reports from a file
     public void loadReportsFromFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -37,10 +38,14 @@ public class ReportManager {
 
     // This method creates a new report
     public Report createReport(User currentUser, String reportType, String description, String status) {
-        String reportID = currentUser.getEmail() + "-" + System.currentTimeMillis(); // unique id
-        String reportDate = java.time.LocalDate.now().toString(); // date it's been created
-        int reportCreatorID = currentUser.getEmployeeID(); // id of current user
-        int assignedEmployeeID = -1; // ID unassigned
+        // unique id
+        String reportID = currentUser.getEmail() + "-" + System.currentTimeMillis();
+        // date it's been created
+        String reportDate = java.time.LocalDate.now().toString();
+        // id of current user
+        int reportCreatorID = currentUser.getEmployeeID();
+        // ID unassigned - default value is -1
+        int assignedEmployeeID = -1;
 
         // Add to map and save it to file
         reports.put(reportID, new Report(reportType, reportDate, description, reportID, reportCreatorID, assignedEmployeeID, status));
@@ -48,6 +53,7 @@ public class ReportManager {
         return reports.get(reportID);
     }
 
+    // This method saves reports to a file
     public void saveReportsToFile(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
             for (Report report : reports.values()) {
@@ -70,7 +76,7 @@ public class ReportManager {
         // Put all reports in one String
         StringBuilder allReports = new StringBuilder();
         for (Report report : reports.values()) {
-            allReports.append(report.toString()).append("\n"); // Assumes Report has a meaningful toString() implementation
+            allReports.append(report.toString()).append("\n");
         }
 
         return allReports.toString();

@@ -2,7 +2,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.io.*;
 
 public class UserManager {
-    // Store all users
+    // Map to store users
     private final ConcurrentHashMap<String, User> users;
 
     //  Constructor
@@ -11,6 +11,7 @@ public class UserManager {
         loadUsersFromFile("src/employees.txt");
     }
 
+    // This method loads the map with the users from a file
     public void loadUsersFromFile(String filePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -37,12 +38,12 @@ public class UserManager {
 
     // This method authenticates log in information
     public boolean authenticate(String email, String password) {
-        // Email
+        // Check if email exists
         if (!users.containsKey(email)) {
             return false;
         }
 
-        // Password
+        // Now return either true or false
         return users.get(email).getPassword().equals(password);
     }
 
@@ -53,9 +54,12 @@ public class UserManager {
 
     // This method updates the password
     public boolean updatePassword(String email, String newPassword) {
+        // Check if user exists
         if (!users.containsKey(email)) {
             return false;
         }
+
+        // If so, update password and save to file
         users.get(email).setPassword(newPassword);
         saveUsersToFile("src/employees.txt");
         return true;
@@ -67,6 +71,7 @@ public class UserManager {
             return false; // Email already registered
         }
 
+        // Loop through users to make sure id is unique
         for (User user : users.values()) {
             if (user.getEmployeeID() == employeeID) {
                 return false; // ID already exists
@@ -81,6 +86,7 @@ public class UserManager {
 
     public void saveUsersToFile(String filePath) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath))) {
+            // Loop through users, store the toString in a line and save it to a file
             for (User user : users.values()) {
                 String line = user.toString();
                 writer.write(line);

@@ -4,7 +4,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class ServerThread extends Thread {
-    // Fields
     private final Socket socket;
     private final ReportManager reportManager;
     private final UserManager userManager;
@@ -23,7 +22,8 @@ public class ServerThread extends Thread {
         try {
             // Initialize output stream to send data to client
             out = new ObjectOutputStream(socket.getOutputStream());
-            out.flush(); // Ensure the stream is clear before use
+            out.flush();
+
             // Initialize input stream to receive data from client
             in = new ObjectInputStream(socket.getInputStream());
 
@@ -40,9 +40,8 @@ public class ServerThread extends Thread {
                     optionChosen = Integer.parseInt(message);
                 } while ((optionChosen != 1) && (optionChosen != 2));
 
-                // Register & log in
+                // Register
                 if (message.equalsIgnoreCase("1")) {
-                    // Registration logic
                     sendMessage("Create a username> ");
                     String username = (String) in.readObject();
 
@@ -61,8 +60,11 @@ public class ServerThread extends Thread {
                     sendMessage("Enter your employee ID> ");
                     String idInput = (String) in.readObject();
 
+                    // Parse ID to an int
                     try {
-                        int id = Integer.parseInt(idInput); // Parse to int
+                        int id = Integer.parseInt(idInput);
+
+                        // Add the user if they aren't already added
                         if (userManager.registerNewUser(id, username, email, password, department, role)) {
                             sendMessage("Registration successful! You can now log in.");
                         } else {
@@ -71,8 +73,8 @@ public class ServerThread extends Thread {
                     } catch (NumberFormatException e) {
                         sendMessage("Invalid ID. Please enter a valid number.");
                     }
+                    // Log in
                 } else if (message.equalsIgnoreCase("2")) {
-                    // Validate user
                     sendMessage("Email> ");
                     String email = (String) in.readObject();
 
@@ -82,6 +84,8 @@ public class ServerThread extends Thread {
                     // Check credentials
                     if (userManager.authenticate(email, password)) {
                         sendMessage("Logged in successfully");
+
+                        // Create an instance of the logged-in user
                         User currentUser = userManager.getUserByEmail(email);
                         loggedInMenu(currentUser);
                     } else {
@@ -94,9 +98,11 @@ public class ServerThread extends Thread {
                 message = (String) in.readObject();
             } while (message.equalsIgnoreCase("1"));
 
-        } catch (IOException e) { // Catch IOException for communication errors
+            // Catch IOException for communication errors
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) { // Catch exception if received object is of unknown type
+            // Catch exception if received object is of unknown type
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
             // Closing connections in finally block to ensure resources are released
@@ -110,7 +116,7 @@ public class ServerThread extends Thread {
         }
     }
 
-    // Options 3 - 7
+    // Options 3 - 7 (menu for user logged in)
     private void loggedInMenu(User currentUser) throws IOException, ClassNotFoundException {
         String message;
         do {
@@ -146,7 +152,7 @@ public class ServerThread extends Thread {
         } while (message.equals("1"));
     }
 
-    // Create report
+    // Create a report
     private void createReport(User currentUser) throws IOException, ClassNotFoundException {
         sendMessage("Enter report type (Accident or Risk):");
         String reportType = (String) in.readObject();
@@ -176,6 +182,7 @@ public class ServerThread extends Thread {
         sendMessage("Enter the new status (Open/Assigned/Closed):");
         String newStatus = (String) in.readObject();
 
+        // Confirmation message
         boolean updated = reportManager.updateReportStatus(reportID, newStatus);
         if (updated) {
             sendMessage("Report updated successfully!");
@@ -183,7 +190,7 @@ public class ServerThread extends Thread {
             sendMessage("Failed to update report. Report ID not found.");
         }
 
-        // Assign
+        // Assign a report to a user
         sendMessage("Enter employee ID to assign a report: ");
         String employeeIDToAssignReport = (String) in.readObject();
         boolean assigned = reportManager.assignReportToEmployee(reportID, employeeIDToAssignReport);
@@ -197,7 +204,7 @@ public class ServerThread extends Thread {
 
     // View assigned report
     private void viewAssignedReports(User currentUser) {
-        // Retrieve reports assigned to the current user
+        // Retrieve any reports assigned to the current user
         String reports = reportManager.getReportsAssignedToUser(currentUser.getEmployeeID());
 
         // Check if there are any assigned reports
@@ -213,6 +220,7 @@ public class ServerThread extends Thread {
         sendMessage("Enter your new password:");
         String newPassword = (String) in.readObject();
 
+        // Method will return true if password's been updated
         boolean success = userManager.updatePassword(currentUser.getEmail(), newPassword);
         if (success) {
             sendMessage("Password updated successfully!");
@@ -224,9 +232,11 @@ public class ServerThread extends Thread {
     // Helper method to send a message to the client
     void sendMessage(String msg) {
         try {
-            out.writeObject(msg); // Send message as an object
-            out.flush(); // Clear the stream after sending
-            System.out.println("server> " + msg); // Log message to server console
+            // Send message as an object
+            out.writeObject(msg);
+            // Clear the stream after sending
+            out.flush();
+            System.out.println("server> " + msg);
         } catch (IOException ioException) {
             ioException.printStackTrace();
         }
