@@ -5,9 +5,10 @@ public class UserManager {
     // Store all users
     private final ConcurrentHashMap<String, User> users;
 
+    //  Constructor
     public UserManager() {
         users = new ConcurrentHashMap<>();
-        loadUsersFromFile("/Users/arielnunes/local-college/project-2024/OS-project-2024/src/employees.txt");
+        loadUsersFromFile("src/employees.txt");
     }
 
     public void loadUsersFromFile(String filePath) {

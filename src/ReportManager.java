@@ -8,7 +8,7 @@ public class ReportManager {
     // Constructor
     public ReportManager() {
         this.reports = new ConcurrentHashMap<>();
-        loadReportsFromFile("/Users/arielnunes/local-college/project-2024/OS-project-2024/src/reports.txt");
+        loadReportsFromFile("src/reports.txt");
     }
 
     public void loadReportsFromFile(String filePath) {
