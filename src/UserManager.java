@@ -16,17 +16,17 @@ public class UserManager {
             System.out.println("Loading employees.txt");
             while ((line = reader.readLine()) != null) {
                 // Split the line by commas
-                String[] parts = line.split(",");
+                String[] parts = line.split(", ");
                 if (parts.length == 6) {
                     int employeeID = Integer.parseInt(parts[0]);
-                    String name = parts[1];
+                    String username = parts[1];
                     String email = parts[2];
                     String password = parts[3];
                     String department = parts[4];
                     String role = parts[5];
 
                     // Create a new User and add it to the map
-                    users.put(email, new User(name, password, email, department, role, employeeID));
+                    users.put(email, new User(employeeID, username, email, password, department, role));
                 }
             }
         } catch (IOException e) {
@@ -74,14 +74,14 @@ public class UserManager {
     }
 
     // This email registers the user (if the user is not already registered)
-    public boolean registerNewUser(String username, String password, String email, String department, String role, int employeeID) {
+    public boolean registerNewUser(int employeeID, String username, String email, String password, String department, String role) {
         if (users.containsKey(email)) {
             return false; // Email already registered
         }
 
         // Add new user and save it file
         saveUsersToFile("/Users/arielnunes/local-college/project-2024/OS-project-2024/src/employees.txt");
-        users.put(email, new User(username, password, email, department, role, employeeID));
+        users.put(email, new User(employeeID, username, email, password, department, role));
         return true;
     }
 }

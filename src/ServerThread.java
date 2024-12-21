@@ -63,7 +63,7 @@ public class ServerThread extends Thread {
 
                     try {
                         int id = Integer.parseInt(idInput); // Parse to int
-                        if (userManager.registerNewUser(username, email, password, department, role, id)) {
+                        if (userManager.registerNewUser(id, username, email, password, department, role)) {
                             sendMessage("Registration successful! You can now log in.");
                         } else {
                             sendMessage("Registration unsuccessful. Please try again.");

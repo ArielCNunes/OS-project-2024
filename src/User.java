@@ -4,7 +4,7 @@ public class User {
     private int employeeID;
 
     // Constructor
-    public User(String username, String password, String email, String department, String role, int employeeID) {
+    public User(int employeeID, String username, String email, String password, String department, String role) {
         this.username = username;
         this.password = password;
         this.email = email;

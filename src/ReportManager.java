@@ -16,7 +16,7 @@ public class ReportManager {
             String line;
             while ((line = reader.readLine()) != null) {
                 // Split the line by commas
-                String[] parts = line.split(",");
+                String[] parts = line.split(", ");
                 if (parts.length == 7) {
                     String reportID = parts[0];
                     String type = parts[1];
