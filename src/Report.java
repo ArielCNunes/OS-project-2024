@@ -74,13 +74,12 @@ public class Report {
     // Method to print a report
     @Override
     public String toString() {
-        return "Report [ID=" + reportID +
-                ", Report Type=" + reportType +
-                ", Report Date=" + reportDate +
-                ", Status =" + status +
-                ", Description =" + description +
-                ", Report Creator ID =" + reportCreatorID +
-                ", Assigned Employee ID =" + assignedEmployeeID +
-                "]";
+        return reportID + "," +
+                reportType + "," +
+                reportDate + "," +
+                description + "," +
+                reportCreatorID + "," +
+                assignedEmployeeID + "," +
+                status;
     }
 }
